@@ -1,0 +1,25 @@
+{
+    "description": "Custom migrations",
+    "homepage": "http://websolutions.netlogix.de/",
+    "license": ["MIT"],
+    "name": "netlogix/migrations",
+    "type": "neos-package",
+    "require": {
+        "neos/flow": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Netlogix\\Migrations\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Netlogix\\Migrations\\Test\\s": "Tests/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "Netlogix.Migrations"
+        }
+    }
+}
