@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Netlogix\Migrations\Domain\Service;
+namespace Netlogix\Migrations\Domain\Handler;
 
 use Netlogix\Migrations\Domain\Model\MigrationTypeInterface;
 
