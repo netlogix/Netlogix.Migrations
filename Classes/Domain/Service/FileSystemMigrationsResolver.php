@@ -4,10 +4,14 @@ declare(strict_types=1);
 namespace Netlogix\Migrations\Domain\Service;
 
 use Doctrine\DBAL\Migrations\Finder\GlobFinder;
+use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Package\PackageInterface;
 use Neos\Flow\Package\PackageManager;
 use Neos\Utility\Files;
 
+/**
+ * @Flow\Scope("singleton")
+ */
 final class FileSystemMigrationsResolver
 {
     /**
@@ -20,10 +24,10 @@ final class FileSystemMigrationsResolver
      */
     private $globFinder;
 
-    public function __construct(PackageManager $packageManager, GlobFinder $globFinder)
+    public function __construct(PackageManager $packageManager)
     {
         $this->packageManager = $packageManager;
-        $this->globFinder = $globFinder;
+        $this->globFinder = new GlobFinder();
     }
 
     /**
