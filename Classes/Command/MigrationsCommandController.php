@@ -54,6 +54,12 @@ class MigrationsCommandController extends CommandController
     public function migrateCommand(bool $quiet = false)
     {
         $unexecutedMigrations = $this->migrationService->findUnexecutedMigrations();
+
+        if ($unexecutedMigrations === []) {
+            $this->outputLine('No new migrations available');
+            $this->sendAndExit(0);
+        }
+
         foreach ($unexecutedMigrations as $version => $migration) {
             try {
                 $this->migrationExecutor->execute($migration);
