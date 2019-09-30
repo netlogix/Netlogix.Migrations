@@ -32,16 +32,23 @@ final class MigrationService
      */
     private $migrationExecutor;
 
+    /**
+     * @var VersionResolver
+     */
+    private $versionResolver;
+
     public function __construct(
         ObjectManagerInterface $objectManager,
         MigrationStatusRepository $migrationStatusRepository,
         FileSystemMigrationsResolver $fileSystemMigrationsResolver,
-        MigrationExecutor $migrationExecutor
+        MigrationExecutor $migrationExecutor,
+        VersionResolver $versionResolver
     ) {
         $this->objectManager = $objectManager;
         $this->migrationStatusRepository = $migrationStatusRepository;
         $this->fileSystemMigrationsResolver = $fileSystemMigrationsResolver;
         $this->migrationExecutor = $migrationExecutor;
+        $this->versionResolver = $versionResolver;
     }
 
 
@@ -89,7 +96,7 @@ final class MigrationService
             });
 
             foreach ($classNames as $className) {
-                yield $this->getVersionByClassName($className) => $className;
+                yield $this->versionResolver->extractVersion($className) => $className;
             }
         };
 

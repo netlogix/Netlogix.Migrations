@@ -29,41 +29,16 @@ class VersionResolverTest extends UnitTestCase
      * @test
      * @dataProvider getProvidedData
      */
-    public function Can_extract_version_string(Migration $migration, string $expectedVersionString)
+    public function Can_extract_version_string(string $migrationClassName, string $expectedVersionString)
     {
-        $this->assertEquals($expectedVersionString, $this->versionResolver->extractVersion($migration));
+        $this->assertEquals($expectedVersionString, $this->versionResolver->extractVersion($migrationClassName));
     }
 
     public function getProvidedData()
     {
         return [
-            [new Version20190930132259(), '20190930132259'],
-            [new Version20190930132253(), '20190930132253'],
+            ['Version20190930132259', '20190930132259'],
+            ['Version20190930132253', '20190930132253'],
         ];
-    }
-}
-
-
-
-class Version20190930132259 implements Migration {
-
-    public function up(): void
-    {
-    }
-
-    public function down(): void
-    {
-    }
-}
-
-
-class Version20190930132253 implements Migration {
-
-    public function up(): void
-    {
-    }
-
-    public function down(): void
-    {
     }
 }

@@ -37,7 +37,7 @@ class VersionLogger
 
     public function logMigration(Migration $migration, string $direction): void
     {
-        $version = $this->versionResolver->extractVersion($migration);
+        $version = $this->versionResolver->extractVersion(get_class($migration));
         switch ($direction) {
             case 'up':
                 $migrationStatus = new MigrationStatus($version);

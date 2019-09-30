@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Test\s\Unit\Domain\Service;
 
+use Neos\Flow\ObjectManagement\ObjectManager;
 use Neos\Flow\Reflection\ReflectionService;
 use Neos\Flow\Tests\UnitTestCase;
 use Netlogix\Migrations\Domain\Handler\MigrationHandler;
@@ -28,6 +29,11 @@ class MigrationExecutorTest extends UnitTestCase
      */
     private $reflectionService;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $objectManager;
+
     protected function setUp()
     {
         parent::setUp();
@@ -40,8 +46,13 @@ class MigrationExecutorTest extends UnitTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->objectManager = $this->getMockBuilder(ObjectManager::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->migrationExecutor = new MigrationExecutor(
             $this->reflectionService,
+            $this->objectManager,
             $this->versionLogger
         );
     }
@@ -81,7 +92,11 @@ class MigrationExecutorTest extends UnitTestCase
             ->with($migration);
 
         $this->reflectionService->method('getAllImplementationClassNamesForInterface')
-            ->willReturn([$migrationHandler]);
+            ->willReturn(['TestPackage\Subpackage\Class1']);
+
+        $this->objectManager->method('get')
+            ->with('TestPackage\Subpackage\Class1')
+            ->willReturn($migrationHandler);
 
         $this->migrationExecutor->execute($migration);
     }

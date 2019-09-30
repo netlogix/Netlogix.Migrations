@@ -7,10 +7,9 @@ use Netlogix\Migrations\Domain\Model\Migration;
 
 class VersionResolver
 {
-    public function extractVersion(Migration $migration): string
+    public function extractVersion(string $migrationClassName): string
     {
-        $className = get_class($migration);
-        preg_match('#\\Version(\d+)$#', $className, $matches);
+        preg_match('#\\Version(\d+)$#', $migrationClassName, $matches);
         return $matches[1];
     }
 }
