@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 namespace Netlogix\Migrations\Command;
 
 use Neos\Flow\Cli\CommandController;

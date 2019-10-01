@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Netlogix\Migrations\Test\s\Unit\Domain\Service;
+namespace Netlogix\Migrations\Tests\Unit\Domain\Service;
 use Doctrine\DBAL\Migrations\Finder\GlobFinder;
 use Neos\Flow\Package;
 use Neos\Flow\Package\PackageManager;

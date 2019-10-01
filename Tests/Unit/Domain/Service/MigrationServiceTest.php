@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Netlogix\Migrations\Test\s\Unit\Domain\Service;
+namespace Netlogix\Migrations\Tests\Unit\Domain\Service;
 
 use Neos\Flow\ObjectManagement\ObjectManager;
 use Neos\Flow\Tests\UnitTestCase;
@@ -66,7 +66,6 @@ class MigrationServiceTest extends UnitTestCase
                 Version1312193::class,
             ]);
 
-
         $this->migrationService = new MigrationService(
             $this->objectManager,
             $this->migrationStatusRepository,
@@ -122,7 +121,7 @@ class MigrationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function Can_Return_SingleMigration()
+    public function Can_Return_A_Single_Migration()
     {
         $migrationMock = $this->getMockBuilder(Migration::class)
             ->getMock();
@@ -143,7 +142,6 @@ class MigrationServiceTest extends UnitTestCase
         $migration = $this->migrationService->getMigrationByVersion('1312192');
 
         $this->assertInstanceOf(Migration::class, $migration);
-
     }
 
     /**

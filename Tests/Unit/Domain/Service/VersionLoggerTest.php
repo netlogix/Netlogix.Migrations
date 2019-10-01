@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Netlogix\Migrations\Test\s\Unit\Domain\Service;
+namespace Netlogix\Migrations\Tests\Unit\Domain\Service;
 
 use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Flow\Tests\UnitTestCase;

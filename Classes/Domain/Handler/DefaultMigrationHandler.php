@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 namespace Netlogix\Migrations\Domain\Handler;
 
 use Netlogix\Migrations\Domain\Model\DefaultMigration;

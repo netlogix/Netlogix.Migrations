@@ -14,7 +14,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Netlogix\\Migrations\\Test\\s": "Tests/"
+            "Netlogix\\Migrations\\Tests\\": "Tests/"
         }
     },
     "extra": {
