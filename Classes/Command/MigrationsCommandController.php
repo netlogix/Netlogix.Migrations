@@ -51,6 +51,11 @@ class MigrationsCommandController extends CommandController
         $this->logger = $logger;
     }
 
+    /**
+     * Execute all unexecuted migrations
+     *
+     * @param bool $quiet If set no output will be send
+     */
     public function migrateCommand(bool $quiet = false)
     {
         $unexecutedMigrations = $this->migrationService->findUnexecutedMigrations();
@@ -69,6 +74,22 @@ class MigrationsCommandController extends CommandController
            } catch (\Exception $exception) {
                 $this->handleException($exception);
             }
+        }
+    }
+
+    /**
+     * Execute a single migration
+     *
+     * @param string $version The version to migrate
+     * @param string $direction Whether to execute the migration up (default) or down
+     */
+    public function executeCommand(string $version, string $direction = 'up')
+    {
+        try {
+            $migration = $this->migrationService->getMigrationByVersion($version);
+            $this->migrationExecutor->execute($migration, $direction);
+        } catch (\Exception $exception) {
+            $this->handleException($exception);
         }
     }
 

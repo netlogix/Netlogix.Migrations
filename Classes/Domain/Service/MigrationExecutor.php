@@ -9,8 +9,12 @@ use Neos\Flow\Reflection\ReflectionService;
 use Netlogix\Migrations\Domain\Handler\MigrationHandler;
 use Netlogix\Migrations\Domain\Model\Migration;
 use Netlogix\Migrations\Error\MissingMigrationHandler;
+use Neos\Flow\Annotations as Flow;
 
-final class MigrationExecutor
+/**
+ * @Flow\Scope("singleton")
+ */
+class MigrationExecutor
 {
     /**
      * @var ReflectionService

@@ -12,7 +12,7 @@ use Neos\Utility\Files;
 /**
  * @Flow\Scope("singleton")
  */
-final class FileSystemMigrationsResolver
+class FileSystemMigrationsResolver
 {
     /**
      * @var PackageManager

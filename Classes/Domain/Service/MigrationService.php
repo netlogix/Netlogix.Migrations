@@ -5,12 +5,14 @@ namespace Netlogix\Migrations\Domain\Service;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
+use Netlogix\Migrations\Domain\Model\Migration;
 use Netlogix\Migrations\Domain\Repository\MigrationStatusRepository;
+use Netlogix\Migrations\Error\UnknownMigration;
 
 /**
  * @Flow\Scope("singleton")
  */
-final class MigrationService
+class MigrationService
 {
     /**
      * @var ObjectManagerInterface
@@ -28,11 +30,6 @@ final class MigrationService
     private $fileSystemMigrationsResolver;
 
     /**
-     * @var MigrationExecutor
-     */
-    private $migrationExecutor;
-
-    /**
      * @var VersionResolver
      */
     private $versionResolver;
@@ -41,13 +38,11 @@ final class MigrationService
         ObjectManagerInterface $objectManager,
         MigrationStatusRepository $migrationStatusRepository,
         FileSystemMigrationsResolver $fileSystemMigrationsResolver,
-        MigrationExecutor $migrationExecutor,
         VersionResolver $versionResolver
     ) {
         $this->objectManager = $objectManager;
         $this->migrationStatusRepository = $migrationStatusRepository;
         $this->fileSystemMigrationsResolver = $fileSystemMigrationsResolver;
-        $this->migrationExecutor = $migrationExecutor;
         $this->versionResolver = $versionResolver;
     }
 
@@ -62,8 +57,6 @@ final class MigrationService
 
         return $this->getMigrations($availableMigrationClassNames);
     }
-
-
 
     private function getMigrations(?array $classNames = null): array
     {
@@ -103,10 +96,13 @@ final class MigrationService
         return iterator_to_array($buildClassNames());
     }
 
-    public function executeMigrations(string $version, string $output, bool $quiet)
+    public function getMigrationByVersion(string $version): Migration
     {
-        foreach ($this->findUnexecutedMigrations() as $migration) {
-            $this->migrationExecutor->execute($migration);
+        $migrationClassNames = $this->getMigrations();
+
+        if (!isset($migrationClassNames[$version])) {
+            throw new UnknownMigration('Unknown Migration "'.$version."'" );
         }
+        return $migrationClassNames[$version];
     }
 }
