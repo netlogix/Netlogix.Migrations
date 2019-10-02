@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Domain\Service;
 
+use Neos\Flow\Cli\ConsoleOutput;
 use Neos\Flow\ObjectManagement\ObjectManager;
 use Neos\Flow\Reflection\ReflectionService;
 use Netlogix\Migrations\Domain\Handler\MigrationHandler;
@@ -40,7 +41,7 @@ class MigrationExecutor
         $this->versionLogger = $versionLogger;
     }
 
-    public function execute(Migration $migration, $direction = 'up')
+    public function execute(Migration $migration, $direction = 'up', ?ConsoleOutput $consoleOutput = null)
     {
         foreach ($this->reflectionService->getAllImplementationClassNamesForInterface(MigrationHandler::class) as $handlerClassName) {
 
@@ -48,6 +49,7 @@ class MigrationExecutor
             $handler = $this->objectManager->get($handlerClassName);
 
             if ($handler->canExecute($migration)) {
+                $handler->setConsoleOutput($consoleOutput);
                 $result = $handler->{$direction}($migration);
                 $this->versionLogger->logMigration($migration, $direction);
                 return $result;
