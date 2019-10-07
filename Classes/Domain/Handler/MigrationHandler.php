@@ -14,5 +14,5 @@ interface MigrationHandler
 
     public function down(Migration $migration): void;
 
-    public function setConsoleOutput(ConsoleOutput $consoleOutput): void;
+    public function setConsoleOutput(?ConsoleOutput $consoleOutput = null): void;
 }

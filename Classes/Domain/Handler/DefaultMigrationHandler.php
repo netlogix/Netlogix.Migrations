@@ -30,7 +30,7 @@ class DefaultMigrationHandler implements MigrationHandler
         $migration->down();
     }
 
-    public function setConsoleOutput(ConsoleOutput $consoleOutput): void
+    public function setConsoleOutput(?ConsoleOutput $consoleOutput = null): void
     {
         $this->output = $consoleOutput;
     }
