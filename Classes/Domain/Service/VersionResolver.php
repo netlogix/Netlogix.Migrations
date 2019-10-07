@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Domain\Service;
 
-use Netlogix\Migrations\Domain\Model\Migration;
-
 class VersionResolver
 {
     public function extractVersion(string $migrationClassName): string

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Domain\Service;
 
-use Doctrine\DBAL\Migrations\Finder\GlobFinder;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Package\PackageInterface;
 use Neos\Flow\Package\PackageManager;
@@ -36,8 +35,10 @@ class FileSystemMigrationsResolver
     public function findMigrationFiles(): array
     {
         $classNames = [];
-        /** @var PackageInterface $package */
-        foreach ($this->packageManager->getAvailablePackages() as $package) {
+        /** @var PackageInterface[] $packages */
+        $packages = $this->packageManager->getFilteredPackages('available', 'Application');
+
+        foreach ($packages as $package) {
             $path = Files::concatenatePaths([
                 $package->getPackagePath(),
                 'Migrations',

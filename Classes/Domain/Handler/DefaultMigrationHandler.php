@@ -3,11 +3,18 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Domain\Handler;
 
+use Neos\Flow\Cli\ConsoleOutput;
 use Netlogix\Migrations\Domain\Model\DefaultMigration;
 use Netlogix\Migrations\Domain\Model\Migration;
 
 class DefaultMigrationHandler implements MigrationHandler
 {
+
+    /**
+     * @var ConsoleOutput
+     */
+    protected $output;
+
     public function canExecute(Migration $migration): bool
     {
         return $migration instanceof DefaultMigration;
@@ -22,4 +29,19 @@ class DefaultMigrationHandler implements MigrationHandler
     {
         $migration->down();
     }
+
+    public function setConsoleOutput(?ConsoleOutput $consoleOutput = null): void
+    {
+        $this->output = $consoleOutput;
+    }
+
+    protected function outputLine(string $text, array $arguments = []): void
+    {
+        if (!$this->output) {
+            return;
+        }
+
+        $this->output->outputLine($text, $arguments);
+    }
+
 }

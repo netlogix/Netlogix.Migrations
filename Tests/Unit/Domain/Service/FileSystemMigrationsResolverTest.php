@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace Netlogix\Migrations\Tests\Unit\Domain\Service;
-use Doctrine\DBAL\Migrations\Finder\GlobFinder;
+
 use Neos\Flow\Package;
 use Neos\Flow\Package\PackageManager;
 use Neos\Flow\Tests\UnitTestCase;
@@ -32,10 +32,11 @@ class FileSystemMigrationsResolverTest extends UnitTestCase
             ->method('getPackagePath')
             ->willReturn('dummy/package/path/');
 
-        $packageManager->method('getAvailablePackages')
+        $packageManager->method('getFilteredPackages')
             ->willReturn([$dummyPackage]);
+        assert($packageManager instanceof PackageManager);
 
-        $this->fileSystemMigrationsResolver = new FileSystemMigrationsResolver($packageManager, new GlobFinder());
+        $this->fileSystemMigrationsResolver = new FileSystemMigrationsResolver($packageManager);
     }
 
     /**
@@ -43,6 +44,7 @@ class FileSystemMigrationsResolverTest extends UnitTestCase
      */
     public function Can_return_empty_array()
     {
+        xdebug_break();
         $files = $this->fileSystemMigrationsResolver->findMigrationFiles();
         $this->assertCount(0, $files);
     }

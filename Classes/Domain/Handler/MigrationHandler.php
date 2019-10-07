@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Domain\Handler;
 
+use Neos\Flow\Cli\ConsoleOutput;
 use Netlogix\Migrations\Domain\Model\Migration;
-use Netlogix\Migrations\Domain\Model\MigrationInterface;
 
 interface MigrationHandler
 {
@@ -13,4 +13,6 @@ interface MigrationHandler
     public function up(Migration $migration): void;
 
     public function down(Migration $migration): void;
+
+    public function setConsoleOutput(?ConsoleOutput $consoleOutput = null): void;
 }

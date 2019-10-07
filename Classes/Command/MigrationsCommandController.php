@@ -66,7 +66,7 @@ class MigrationsCommandController extends CommandController
 
         foreach ($unexecutedMigrations as $version => $migration) {
             try {
-                $this->migrationExecutor->execute($migration);
+                $this->migrationExecutor->execute($migration, 'up', $this->output);
                 if (false === $quiet) {
                     $this->outputLine('Executed Migration "' . $version . '".');
                 }
@@ -86,7 +86,7 @@ class MigrationsCommandController extends CommandController
     {
         try {
             $migration = $this->migrationService->getMigrationByVersion($version);
-            $this->migrationExecutor->execute($migration, $direction);
+            $this->migrationExecutor->execute($migration, $direction, $this->output);
         } catch (\Exception $exception) {
             $this->handleException($exception);
         }

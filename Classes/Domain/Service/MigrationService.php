@@ -6,6 +6,7 @@ namespace Netlogix\Migrations\Domain\Service;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use Netlogix\Migrations\Domain\Model\Migration;
+use Netlogix\Migrations\Domain\Model\MigrationStatus;
 use Netlogix\Migrations\Domain\Repository\MigrationStatusRepository;
 use Netlogix\Migrations\Error\UnknownMigration;
 
