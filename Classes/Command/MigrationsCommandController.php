@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Command;
 
+use Doctrine\Common\Persistence\ObjectManager as DoctrineObjectManager;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager as DoctrineEntityManager;
 use Neos\Flow\Cli\CommandController;
 use Neos\Flow\Log\ThrowableStorageInterface;
 use Neos\Flow\Log\Utility\LogEnvironment;
@@ -10,6 +13,7 @@ use Netlogix\Migrations\Domain\Service\MigrationExecutor;
 use Netlogix\Migrations\Domain\Service\MigrationService;
 use Psr\Log\LoggerInterface;
 use Neos\Flow\Annotations as Flow;
+use RuntimeException;
 
 /**
  * @Flow\Scope("singleton")
@@ -36,11 +40,17 @@ class MigrationsCommandController extends CommandController
      */
     private $logger;
 
+    /**
+     * @var DoctrineObjectManager
+     */
+    private $doctrineObjectManager;
+
     public function __construct(
         MigrationService $migrationService,
         MigrationExecutor $migrationExecutor,
         ThrowableStorageInterface $throwableStorage,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        DoctrineObjectManager $doctrineObjectManager
     ) {
         parent::__construct();
 
@@ -48,6 +58,7 @@ class MigrationsCommandController extends CommandController
         $this->migrationExecutor = $migrationExecutor;
         $this->throwableStorage = $throwableStorage;
         $this->logger = $logger;
+        $this->doctrineObjectManager = $doctrineObjectManager;
     }
 
     /**
@@ -63,6 +74,8 @@ class MigrationsCommandController extends CommandController
             $this->outputLine('No new migrations available');
             $this->sendAndExit(0);
         }
+
+        $this->increaseDatabaseTimeout();
 
         foreach ($unexecutedMigrations as $version => $migration) {
             try {
@@ -85,6 +98,7 @@ class MigrationsCommandController extends CommandController
     public function executeCommand(string $version, string $direction = 'up')
     {
         try {
+            $this->increaseDatabaseTimeout();
             $migration = $this->migrationService->getMigrationByVersion($version);
             $this->migrationExecutor->execute($migration, $direction, $this->output);
         } catch (\Exception $exception) {
@@ -101,5 +115,18 @@ class MigrationsCommandController extends CommandController
         $this->outputLine($message);
         $this->logger->error($message, LogEnvironment::fromMethodName(__METHOD__));
         $this->quit(1);
+    }
+
+    protected function increaseDatabaseTimeout($timeout = 3600): void
+    {
+        ini_set('default_socket_timeout', (string)$timeout);
+        if (!$this->doctrineObjectManager instanceof DoctrineEntityManager) {
+            throw new RuntimeException('No Doctrine EntityManager found, cannot increase MySQL timeout');
+        }
+        $connection = $this->doctrineObjectManager->getConnection();
+        if (!$connection || !$connection instanceof Connection) {
+            throw new RuntimeException('No Doctrine Connection found, cannot increase MySQL timeout');
+        }
+        $connection->exec(sprintf('SET SESSION wait_timeout = %d;', $timeout));
     }
 }
