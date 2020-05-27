@@ -44,7 +44,6 @@ class FileSystemMigrationsResolverTest extends UnitTestCase
      */
     public function Can_return_empty_array()
     {
-        xdebug_break();
         $files = $this->fileSystemMigrationsResolver->findMigrationFiles();
         $this->assertCount(0, $files);
     }
