@@ -114,7 +114,7 @@ class MigrationsCommandController extends CommandController
         $message = $this->throwableStorage->logThrowable($exception);
         $this->outputLine($message);
         $this->logger->error($message, LogEnvironment::fromMethodName(__METHOD__));
-        $this->quit(1);
+        throw $exception;
     }
 
     protected function increaseDatabaseTimeout($timeout = 3600): void
