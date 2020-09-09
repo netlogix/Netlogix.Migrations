@@ -36,7 +36,7 @@ class FileSystemMigrationsResolver
     {
         $classNames = [];
         /** @var PackageInterface[] $packages */
-        $packages = $this->packageManager->getFilteredPackages('available', 'Application');
+        $packages = $this->packageManager->getFilteredPackages('available');
 
         foreach ($packages as $package) {
             $path = Files::concatenatePaths([
