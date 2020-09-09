@@ -3,16 +3,15 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Command;
 
-use Doctrine\Common\Persistence\ObjectManager as DoctrineObjectManager;
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\EntityManager as DoctrineEntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
 use Neos\Flow\Log\ThrowableStorageInterface;
 use Neos\Flow\Log\Utility\LogEnvironment;
 use Netlogix\Migrations\Domain\Service\MigrationExecutor;
 use Netlogix\Migrations\Domain\Service\MigrationService;
 use Psr\Log\LoggerInterface;
-use Neos\Flow\Annotations as Flow;
 use RuntimeException;
 
 /**
@@ -41,16 +40,16 @@ class MigrationsCommandController extends CommandController
     private $logger;
 
     /**
-     * @var DoctrineObjectManager
+     * @var EntityManagerInterface
      */
-    private $doctrineObjectManager;
+    protected $entityManager;
 
     public function __construct(
         MigrationService $migrationService,
         MigrationExecutor $migrationExecutor,
         ThrowableStorageInterface $throwableStorage,
         LoggerInterface $logger,
-        DoctrineObjectManager $doctrineObjectManager
+        EntityManagerInterface $entityManager
     ) {
         parent::__construct();
 
@@ -58,7 +57,8 @@ class MigrationsCommandController extends CommandController
         $this->migrationExecutor = $migrationExecutor;
         $this->throwableStorage = $throwableStorage;
         $this->logger = $logger;
-        $this->doctrineObjectManager = $doctrineObjectManager;
+        $this->entityManager = $entityManager;
+
     }
 
     /**
@@ -83,7 +83,7 @@ class MigrationsCommandController extends CommandController
                 if (false === $quiet) {
                     $this->outputLine('Executed Migration "' . $version . '".');
                 }
-           } catch (\Exception $exception) {
+            } catch (\Exception $exception) {
                 $this->handleException($exception);
             }
         }
@@ -120,10 +120,10 @@ class MigrationsCommandController extends CommandController
     protected function increaseDatabaseTimeout($timeout = 3600): void
     {
         ini_set('default_socket_timeout', (string)$timeout);
-        if (!$this->doctrineObjectManager instanceof DoctrineEntityManager) {
+        if (!$this->entityManager instanceof EntityManagerInterface) {
             throw new RuntimeException('No Doctrine EntityManager found, cannot increase MySQL timeout');
         }
-        $connection = $this->doctrineObjectManager->getConnection();
+        $connection = $this->entityManager->getConnection();
         if (!$connection || !$connection instanceof Connection) {
             throw new RuntimeException('No Doctrine Connection found, cannot increase MySQL timeout');
         }
