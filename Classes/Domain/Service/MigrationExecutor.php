@@ -8,6 +8,7 @@ use Neos\Flow\ObjectManagement\ObjectManager;
 use Neos\Flow\Reflection\ReflectionService;
 use Netlogix\Migrations\Domain\Handler\MigrationHandler;
 use Netlogix\Migrations\Domain\Model\Migration;
+use Netlogix\Migrations\Domain\Model\OutputAware;
 use Netlogix\Migrations\Error\MissingMigrationHandler;
 use Neos\Flow\Annotations as Flow;
 
@@ -50,6 +51,9 @@ class MigrationExecutor
 
             if ($handler->canExecute($migration)) {
                 $handler->setConsoleOutput($consoleOutput);
+                if ($migration instanceof OutputAware && $consoleOutput instanceof ConsoleOutput) {
+                    $migration->setConsoleOutput($consoleOutput);
+                }
                 $result = $handler->{$direction}($migration);
                 $this->versionLogger->logMigration($migration, $direction);
                 return $result;
