@@ -38,6 +38,8 @@ class VersionResolverTest extends UnitTestCase
         return [
             ['Version20190930132259', '20190930132259'],
             ['Version20190930132253', '20190930132253'],
+            ['Migrations\\Version20201111143501', '20201111143501'],
+            ['Migrations\\Version20201111143502\\MyClass', '20201111143502'],
         ];
     }
 }

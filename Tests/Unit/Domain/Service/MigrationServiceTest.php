@@ -62,8 +62,8 @@ class MigrationServiceTest extends UnitTestCase
 
         $this->fileSystemMigrationsResolver->method('findMigrationFiles')
             ->willReturn([
-                Version1312192::class,
-                Version1312193::class,
+                Version20191001142901::class,
+                Version20191001142902::class,
             ]);
 
         $this->migrationService = new MigrationService(
@@ -107,7 +107,7 @@ class MigrationServiceTest extends UnitTestCase
             ->getMock();
 
         $migrationStatusMock->method('getVersion')
-            ->willReturn('1312192');
+            ->willReturn('20191001142901');
 
         $this->migrationStatusRepository->method('findAll')
             ->willReturn([$migrationStatusMock]);
@@ -115,7 +115,7 @@ class MigrationServiceTest extends UnitTestCase
         $migrations = $this->migrationService->findUnexecutedMigrations();
 
         $this->assertCount(1, $migrations);
-        $this->assertArrayHasKey('1312193', $migrations);
+        $this->assertArrayHasKey('20191001142902', $migrations);
     }
 
     /**
@@ -134,12 +134,12 @@ class MigrationServiceTest extends UnitTestCase
             ->getMock();
 
         $migrationStatusMock->method('getVersion')
-            ->willReturn('1312192');
+            ->willReturn('20191001142901');
 
         $this->migrationStatusRepository->method('findAll')
             ->willReturn([$migrationStatusMock]);
 
-        $migration = $this->migrationService->getMigrationByVersion('1312192');
+        $migration = $this->migrationService->getMigrationByVersion('20191001142901');
 
         $this->assertInstanceOf(Migration::class, $migration);
     }
@@ -162,7 +162,7 @@ class MigrationServiceTest extends UnitTestCase
             ->getMock();
 
         $migrationStatusMock->method('getVersion')
-            ->willReturn('1312192');
+            ->willReturn('20191001142901');
 
         $this->migrationStatusRepository->method('findAll')
             ->willReturn([$migrationStatusMock]);
@@ -171,10 +171,10 @@ class MigrationServiceTest extends UnitTestCase
     }
 }
 
-class Version1312192 {
+class Version20191001142901 {
 
 }
 
-class Version1312193 {
+class Version20191001142902 {
 
 }

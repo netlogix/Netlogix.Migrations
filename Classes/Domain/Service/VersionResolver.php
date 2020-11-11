@@ -17,7 +17,7 @@ class VersionResolver
          *    +  2 digits second
          *    = 14 digits
          */
-        preg_match('#\\\\Version(?<dateFormatVersionNumber>\\d{14})(\\\\|$)#', $migrationClassName, $matches);
+        preg_match('#(\\\\|^)Version(?<dateFormatVersionNumber>\\d{14})(\\\\|$)#', $migrationClassName, $matches);
         return $matches['dateFormatVersionNumber'];
     }
 }
