@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Domain\Service;
 
+use Netlogix\Migrations\Error\InvalidClassName;
+
 class VersionResolver
 {
     public function extractVersion(string $migrationClassName): string
@@ -17,7 +19,13 @@ class VersionResolver
          *    +  2 digits second
          *    = 14 digits
          */
-        preg_match('#\\\\Version(?<dateFormatVersionNumber>\\d{14})(\\\\|$)#', $migrationClassName, $matches);
+        preg_match('#(\\\\|^)Version(?<dateFormatVersionNumber>\\d{14})(\\\\|$)#', $migrationClassName, $matches);
+        if (!isset($matches['dateFormatVersionNumber'])) {
+            throw new InvalidClassName(
+                'Version numbered class names are required to match "Version" followed by exactly 14 digits.',
+                1605102278
+            );
+        }
         return $matches['dateFormatVersionNumber'];
     }
 }
