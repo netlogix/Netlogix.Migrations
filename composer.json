@@ -5,7 +5,7 @@
     "name": "netlogix/migrations",
     "type": "neos-package",
     "require": {
-        "php": "^7.2",
+        "php": "^7.2 || ^7.3 || ^7.4 || ^8.0",
         "neos/flow": "^5.0 || ^6.0"
     },
     "autoload": {
@@ -22,5 +22,10 @@
         "neos": {
             "package-key": "Netlogix.Migrations"
         }
+    },
+    "scripts": {
+        "unit-tests": [
+            "FLOW_CONTEXT=Testing/Unit bin/phpunit -c PhpUnit.xml --bootstrap \"Build/BuildEssentials/PhpUnit/UnitTestBootstrap.php\""
+        ]
     }
 }

@@ -23,7 +23,7 @@ class VersionLoggerTest extends UnitTestCase
      */
     private $migrationStatusRepository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

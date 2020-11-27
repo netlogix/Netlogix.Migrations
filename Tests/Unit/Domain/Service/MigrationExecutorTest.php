@@ -34,7 +34,7 @@ class MigrationExecutorTest extends UnitTestCase
      */
     private $objectManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
