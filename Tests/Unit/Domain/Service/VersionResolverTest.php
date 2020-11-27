@@ -14,7 +14,7 @@ class VersionResolverTest extends UnitTestCase
      */
     private $versionResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->versionResolver = new VersionResolver();
