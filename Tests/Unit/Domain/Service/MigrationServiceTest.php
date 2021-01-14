@@ -77,7 +77,7 @@ class MigrationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function Can_Return_UnexecutedMigrations()
+    public function Can_Return_UnexecutedMigrations(): void
     {
         $migrationMock = $this->getMockBuilder(Migration::class)
             ->getMock();
@@ -94,7 +94,7 @@ class MigrationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function Can_Filter_Executed_Migrations_In_Get_UnexecutedMigrations()
+    public function Can_Filter_Executed_Migrations_In_Get_UnexecutedMigrations(): void
     {
         $migrationMock = $this->getMockBuilder(Migration::class)
             ->getMock();
@@ -121,7 +121,7 @@ class MigrationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function Can_Return_A_Single_Migration()
+    public function Can_Return_A_Single_Migration(): void
     {
         $migrationMock = $this->getMockBuilder(Migration::class)
             ->getMock();
@@ -147,7 +147,7 @@ class MigrationServiceTest extends UnitTestCase
     /**
      * @test
      */
-    public function Will_Throw_Unknown_Migration_If_Migration_Not_Found()
+    public function Will_Throw_Unknown_Migration_If_Migration_Not_Found(): void
     {
         $this->expectException(UnknownMigration::class);
 
