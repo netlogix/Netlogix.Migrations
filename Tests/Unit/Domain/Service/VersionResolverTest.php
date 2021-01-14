@@ -14,7 +14,7 @@ class VersionResolverTest extends UnitTestCase
      */
     private $versionResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->versionResolver = new VersionResolver();
@@ -24,7 +24,7 @@ class VersionResolverTest extends UnitTestCase
      * @test
      * @dataProvider validClassNames
      */
-    public function Can_extract_version_string(string $migrationClassName, string $expectedVersionString)
+    public function Can_extract_version_string(string $migrationClassName, string $expectedVersionString): void
     {
         $this->assertEquals($expectedVersionString, $this->versionResolver->extractVersion($migrationClassName));
     }
@@ -33,13 +33,13 @@ class VersionResolverTest extends UnitTestCase
      * @test
      * @dataProvider invalidClassNames
      */
-    public function Can_not_extract_version_string(string $migrationClassName)
+    public function Can_not_extract_version_string(string $migrationClassName): void
     {
         $this->expectException(InvalidClassName::class);
         $this->versionResolver->extractVersion($migrationClassName);
     }
 
-    public function invalidClassNames()
+    public function invalidClassNames(): array
     {
         return [
             'lower case class name' => ['version20201111145100'],
@@ -48,7 +48,7 @@ class VersionResolverTest extends UnitTestCase
         ];
     }
 
-    public function validClassNames()
+    public function validClassNames(): array
     {
         return [
             'class name without namespace' => ['Version20190930132259', '20190930132259'],

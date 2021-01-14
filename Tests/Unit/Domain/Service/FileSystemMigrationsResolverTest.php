@@ -15,7 +15,7 @@ class FileSystemMigrationsResolverTest extends UnitTestCase
      */
     private $fileSystemMigrationsResolver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -42,7 +42,7 @@ class FileSystemMigrationsResolverTest extends UnitTestCase
     /**
      * @test
      */
-    public function Can_return_empty_array()
+    public function Can_return_empty_array(): void
     {
         $files = $this->fileSystemMigrationsResolver->findMigrationFiles();
         $this->assertCount(0, $files);

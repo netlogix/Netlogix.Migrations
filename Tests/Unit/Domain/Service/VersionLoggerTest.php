@@ -23,7 +23,7 @@ class VersionLoggerTest extends UnitTestCase
      */
     private $migrationStatusRepository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -53,7 +53,7 @@ class VersionLoggerTest extends UnitTestCase
     /**
      * @test
      */
-    public function Can_Store_New_MigrationStatus_On_Up()
+    public function Can_Store_New_MigrationStatus_On_Up(): void
     {
         $migration = $this->createMock(Migration::class);
 
@@ -66,7 +66,7 @@ class VersionLoggerTest extends UnitTestCase
     /**
      * @test
      */
-    public function Can_Remove_MigrationStatus_On_Down()
+    public function Can_Remove_MigrationStatus_On_Down(): void
     {
         $migration = $this->createMock(Migration::class);
 

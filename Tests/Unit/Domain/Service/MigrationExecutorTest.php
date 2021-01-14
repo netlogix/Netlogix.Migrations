@@ -34,7 +34,7 @@ class MigrationExecutorTest extends UnitTestCase
      */
     private $objectManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -60,7 +60,7 @@ class MigrationExecutorTest extends UnitTestCase
     /**
      * @test
      */
-    public function It_Will_Throw_Missing_Migration_Handler()
+    public function It_Will_Throw_Missing_Migration_Handler(): void
     {
         $this->expectException(MissingMigrationHandler::class);
 
@@ -75,7 +75,7 @@ class MigrationExecutorTest extends UnitTestCase
     /**
      * @test
      */
-    public function It_Will_Execute_Migration_Handler()
+    public function It_Will_Execute_Migration_Handler(): void
     {
         $migration = $this->createMock(Migration::class);
 
