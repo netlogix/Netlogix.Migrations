@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Netlogix\Migrations\Domain\Service;
 
-use Doctrine\DBAL\Migrations\Finder\AbstractFinder;
+use Doctrine\Migrations\Finder\Finder;
 
-final class GlobFinder extends AbstractFinder
+final class GlobFinder extends Finder
 {
 
-    public function findMigrations($directory, $namespace = null)
+    public function findMigrations(string $directory, ?string $namespace = null): array
     {
         $dir = $this->getRealPath($directory);
 
