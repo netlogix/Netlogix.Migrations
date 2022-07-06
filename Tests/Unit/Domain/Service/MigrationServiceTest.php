@@ -86,7 +86,7 @@ class MigrationServiceTest extends UnitTestCase
             ->willReturn($migrationMock);
 
         $this->migrationStatusRepository->method('findAll')
-            ->willReturn([]);
+            ->willReturn(new ArrayQueryResult([]));
 
         $this->assertCount(2, $this->migrationService->findUnexecutedMigrations());
     }
@@ -110,7 +110,7 @@ class MigrationServiceTest extends UnitTestCase
             ->willReturn('20191001142901');
 
         $this->migrationStatusRepository->method('findAll')
-            ->willReturn([$migrationStatusMock]);
+            ->willReturn(new ArrayQueryResult([$migrationStatusMock]));
 
         $migrations = $this->migrationService->findUnexecutedMigrations();
 
@@ -137,7 +137,7 @@ class MigrationServiceTest extends UnitTestCase
             ->willReturn('20191001142901');
 
         $this->migrationStatusRepository->method('findAll')
-            ->willReturn([$migrationStatusMock]);
+            ->willReturn(new ArrayQueryResult([$migrationStatusMock]));
 
         $migration = $this->migrationService->getMigrationByVersion('20191001142901');
 
@@ -165,7 +165,7 @@ class MigrationServiceTest extends UnitTestCase
             ->willReturn('20191001142901');
 
         $this->migrationStatusRepository->method('findAll')
-            ->willReturn([$migrationStatusMock]);
+            ->willReturn(new ArrayQueryResult([$migrationStatusMock]));
 
         $this->migrationService->getMigrationByVersion('1458');
     }
