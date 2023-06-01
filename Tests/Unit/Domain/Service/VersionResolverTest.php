@@ -39,7 +39,7 @@ class VersionResolverTest extends UnitTestCase
         $this->versionResolver->extractVersion($migrationClassName);
     }
 
-    public function invalidClassNames(): array
+    public static function invalidClassNames(): array
     {
         return [
             'lower case class name' => ['version20201111145100'],
@@ -48,7 +48,7 @@ class VersionResolverTest extends UnitTestCase
         ];
     }
 
-    public function validClassNames(): array
+    public static function validClassNames(): array
     {
         return [
             'class name without namespace' => ['Version20190930132259', '20190930132259'],
