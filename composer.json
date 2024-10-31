@@ -1,13 +1,13 @@
 {
-    "description": "Custom migrations",
-    "homepage": "http://websolutions.netlogix.de/",
+    "name": "netlogix/migrations",
+    "description": "Custom migrations for Flow Projects",
+    "type": "neos-package",
+    "homepage": "https://websolutions.netlogix.de/",
     "license": [
         "MIT"
     ],
-    "name": "netlogix/migrations",
-    "type": "neos-package",
     "require": {
-        "php": "^7.4 || ~8.0 || ~8.1",
+        "php": ">=8.0 <8.4",
         "neos/flow": "^7.3 || ^8.0",
         "doctrine/migrations": "^3.1"
     },

@@ -20,52 +20,52 @@ class ArrayQueryResult implements QueryResultInterface
         $this->iterator = (new ArrayObject($result))->getIterator();
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->iterator->current();
     }
 
-    public function next()
+    public function next(): void
     {
         $this->iterator->next();
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->iterator->key();
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return $this->iterator->valid();
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->iterator->rewind();
     }
 
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return $this->iterator->offsetExists($offset);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->iterator->offsetGet($offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->iterator->offsetSet($offset, $value);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         $this->iterator->offsetUnset($offset);
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->iterator->count();
     }
