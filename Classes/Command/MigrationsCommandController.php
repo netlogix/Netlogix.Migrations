@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Netlogix\Migrations\Command;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
@@ -121,12 +122,19 @@ class MigrationsCommandController extends CommandController
     {
         ini_set('default_socket_timeout', (string)$timeout);
         if (!$this->entityManager instanceof EntityManagerInterface) {
-            throw new RuntimeException('No Doctrine EntityManager found, cannot increase MySQL timeout');
+            throw new RuntimeException('No Doctrine EntityManager found, cannot increase database timeout');
         }
         $connection = $this->entityManager->getConnection();
         if (!$connection || !$connection instanceof Connection) {
-            throw new RuntimeException('No Doctrine Connection found, cannot increase MySQL timeout');
+            throw new RuntimeException('No Doctrine Connection found, cannot increase database timeout');
         }
-        $connection->exec(sprintf('SET SESSION wait_timeout = %d;', $timeout));
+
+        if ($connection->getDatabasePlatform() instanceof MySqlPlatform) {
+            $connection->executeStatement(sprintf('SET SESSION wait_timeout = %d;', $timeout));
+        } elseif ($connection->getDatabasePlatform()->getName() === 'postgresql') {
+            $connection->executeStatement(sprintf('SET SESSION statement_timeout = %d;', $timeout * 1000));
+        } else {
+            $this->outputLine('<error>Unsupported database platform "%s", cannot increase database timeout</error>', [$connection->getDatabasePlatform()->getName()]);
+        }
     }
 }
