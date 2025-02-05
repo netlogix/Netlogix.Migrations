@@ -7,7 +7,7 @@
         "MIT"
     ],
     "require": {
-        "php": ">=8.0 <8.4",
+        "php": ">=8.0 <8.5",
         "neos/flow": "^8.0 || ^9.0",
         "doctrine/migrations": "^3.1"
     },
